@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gantt Design Thinking</title>
+    <title>Gantt Design Thinking - Corporativo</title>
+    <!-- Importación de Tipografía Asap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --font-sans: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-sans: 'Asap', sans-serif;
+            --color-brand-primary: #ba0020; /* Rojo Corporativo */
+            --color-brand-dark: #4e4e4e;    /* Gris Corporativo */
             --color-bg-primary: #ffffff;
             --color-bg-secondary: #f8f9fa;
-            --color-bg-tertiary: #f1f3f4;
             --color-text-primary: #202124;
-            --color-text-secondary: #5f6368;
+            --color-text-secondary: #4e4e4e;
             --color-text-tertiary: #70757a;
             --color-border: #dadce0;
-            --color-info: #1a73e8;
+            --color-info: #ba0020;
             --color-success: #188038;
             --border-radius-md: 8px;
             --border-radius-lg: 12px;
@@ -28,39 +34,40 @@
         .status-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem; font-size: 11px; color: var(--color-text-secondary); }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: #FAC775; }
         .status-dot.ok { background: #639922; }
-        .status-dot.err { background: #E24B4A; }
-        .status-dot.loading { background: #FAC775; animation: pulse 1s infinite; }
+        .status-dot.err { background: var(--color-brand-primary); }
+        .status-dot.loading { background: var(--color-brand-primary); animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
         /* Métricas */
         .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1rem; }
         .metric { background: var(--color-bg-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 4px solid transparent; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .metric-label { font-size: 10px; color: var(--color-text-tertiary); margin-bottom: 2px; font-weight: 700; text-transform: uppercase; }
-        .metric-val { font-size: 20px; font-weight: 700; color: var(--color-text-primary); }
+        .metric-label { font-size: 10px; color: var(--color-brand-dark); margin-bottom: 2px; font-weight: 700; text-transform: uppercase; }
+        .metric-val { font-size: 20px; font-weight: 700; color: var(--color-brand-primary); }
 
         /* Controles */
         .controls { padding: 15px; background: var(--color-bg-secondary); border-radius: var(--border-radius-md); border: 1px solid var(--color-border); margin-bottom: 1rem; }
         .controls-row { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
         .control-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
-        .controls label { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); }
-        .controls input, .controls select { font-size: 13px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; background: white; outline: none; }
+        .controls label { font-size: 11px; font-weight: 700; color: var(--color-brand-dark); }
+        .controls input, .controls select { font-size: 13px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; background: white; outline: none; font-family: var(--font-sans); }
+        .controls input:focus, .controls select:focus { border-color: var(--color-brand-primary); }
 
         /* Chips */
         .month-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
-        .m-chip { padding: 4px 10px; border-radius: 15px; border: 1px solid var(--color-border); background: white; font-size: 12px; cursor: pointer; transition: all 0.2s; }
-        .m-chip.active { background: var(--color-info); color: white; border-color: var(--color-info); font-weight: 600; }
+        .m-chip { padding: 4px 10px; border-radius: 15px; border: 1px solid var(--color-border); background: white; font-size: 12px; cursor: pointer; transition: all 0.2s; color: var(--color-brand-dark); }
+        .m-chip.active { background: var(--color-brand-primary); color: white; border-color: var(--color-brand-primary); font-weight: 600; }
 
         /* TABLA AJUSTABLE */
         .gantt-outer { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--border-radius-lg); margin-bottom: 1.5rem; background: white; max-height: 50vh; overflow-y: auto; }
         table { border-collapse: collapse; width: max-content; min-width: 100%; table-layout: auto; }
         
-        .month-h { background: #f1f3f4; font-size: 10px; font-weight: 800; color: #444; border: 1px solid var(--color-border); text-align: center; text-transform: uppercase; height: 30px; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 40; }
-        th { background: #f8f9fa; border: 1px solid var(--color-border); padding: 5px 10px; font-weight: 700; font-size: 10px; color: var(--color-text-secondary); white-space: nowrap; }
-        th.left-h { position: sticky; left: 0; z-index: 50; text-align: left; padding-left: 15px; background: #f8f9fa; border-right: 2px solid #ccc; top: 0; }
+        .month-h { background: var(--color-brand-dark); font-size: 10px; font-weight: 800; color: #fff; border: 1px solid var(--color-border); text-align: center; text-transform: uppercase; height: 30px; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 40; }
+        th { background: #f8f9fa; border: 1px solid var(--color-border); padding: 5px 10px; font-weight: 700; font-size: 10px; color: var(--color-brand-dark); white-space: nowrap; }
+        th.left-h { position: sticky; left: 0; z-index: 50; text-align: left; padding-left: 15px; background: #f8f9fa; border-right: 2px solid var(--color-brand-primary); top: 0; }
         
         td { border: 1px solid var(--color-border); padding: 4px 8px; vertical-align: middle; text-align: center; font-size: 12px; }
-        td.left-td { position: sticky; left: 0; z-index: 20; text-align: left; padding: 8px 15px; cursor: pointer; border-right: 2px solid #ccc; background: white; white-space: nowrap; }
-        td.left-td:hover { background: #f1f3f4; }
+        td.left-td { position: sticky; left: 0; z-index: 20; text-align: left; padding: 8px 15px; cursor: pointer; border-right: 2px solid var(--color-brand-primary); background: white; white-space: nowrap; transition: background 0.2s; }
+        td.left-td:hover { background: #fff5f6; }
 
         .cell-bar { height: 24px; min-width: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         
@@ -68,27 +75,31 @@
         .topic-section { border: 1px solid var(--color-border); border-radius: var(--border-radius-lg); overflow: hidden; background: white; }
         .topic-header { background: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); }
         .ttable { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: auto; }
-        .ttable th { text-align: left; padding: 10px 15px; background: #f8f9fa; border-bottom: 1px solid var(--color-border); font-weight: 700; color: var(--color-text-tertiary); font-size: 10px; text-transform: uppercase; }
+        .ttable th { text-align: left; padding: 10px 15px; background: #f8f9fa; border-bottom: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand-dark); font-size: 10px; text-transform: uppercase; }
         .ttable td { padding: 12px 15px; border-bottom: 1px solid #f1f3f4; vertical-align: top; }
         
         .topic-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); white-space: nowrap; }
-        .topic-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.3; color: #555; max-width: 350px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .topic-desc { font-size: 12px; color: var(--color-brand-dark); margin-top: 4px; line-height: 1.3; max-width: 350px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         
         .resp-tag-list { display: flex; flex-wrap: wrap; gap: 4px; min-width: 150px; }
-        .resp-tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #e8eaed; color: #3c4043; border: 1px solid #dadce0; white-space: nowrap; }
+        .resp-tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #f0f0f0; color: var(--color-brand-dark); border: 1px solid var(--color-border); white-space: nowrap; }
 
         /* Historial */
         .history-box { background: #fdfdfd; border-radius: 8px; padding: 12px; border: 1px solid #eee; max-height: 350px; overflow-y: auto; }
         .hist-item { font-size: 12px; border-bottom: 1px solid #f1f1f1; padding: 10px 0; display: flex; flex-direction: column; gap: 3px; }
         .hist-item:last-child { border-bottom: none; }
-        .hist-meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--color-text-tertiary); text-transform: uppercase; }
-        .hist-date { color: var(--color-info); }
+        .hist-meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--color-brand-dark); text-transform: uppercase; }
+        .hist-date { color: var(--color-brand-primary); }
         .hist-comment { color: #333; line-height: 1.4; word-break: break-word; white-space: pre-line; }
 
         /* Botones */
-        .btn-p { background: var(--color-info); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; }
-        .btn-g { background: white; color: #3c4043; border: 1px solid var(--color-border); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; }
-        .btn-h { background: white; color: var(--color-success); border: 1px solid var(--color-success); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .btn-p { background: var(--color-brand-primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; font-family: var(--font-sans); transition: opacity 0.2s; }
+        .btn-p:hover { opacity: 0.9; }
+        .btn-g { background: white; color: var(--color-brand-dark); border: 1px solid var(--color-border); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; font-family: var(--font-sans); }
+        .btn-g:hover { border-color: var(--color-brand-dark); }
+        .btn-h { background: white; color: var(--color-brand-primary); border: 1px solid var(--color-brand-primary); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; font-family: var(--font-sans); }
+        .btn-h:hover { background: #fff5f6; }
+        
         .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
 
         /* Modales */
@@ -96,6 +107,7 @@
         .modal-bg.open { display: flex; }
         .modal { background: white; border-radius: var(--border-radius-lg); padding: 25px; width: 90%; max-width: 650px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .modal-h { max-width: 500px; }
+        .modal label { color: var(--color-brand-dark); }
     </style>
 </head>
 <body>
@@ -104,7 +116,7 @@
     <div class="status-bar">
         <div class="status-dot loading" id="statusDot"></div>
         <span id="statusMsg">Conectando...</span>
-        <button onclick="loadAll()" style="margin-left:auto; cursor:pointer; background:none; border:none; font-size:11px; color: var(--color-info); font-weight: 700">🔄 ACTUALIZAR</button>
+        <button onclick="loadAll()" style="margin-left:auto; cursor:pointer; background:none; border:none; font-size:11px; color: var(--color-brand-primary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">🔄 ACTUALIZAR</button>
     </div>
 
     <div class="metrics" id="metrics"></div>
@@ -133,7 +145,7 @@
 
     <div class="topic-section">
         <div class="topic-header">
-            <h2 style="font-size: 16px; font-weight: 800">Bitácora de Seguimiento</h2>
+            <h2 style="font-size: 16px; font-weight: 800; color: var(--color-brand-dark)">Bitácora de Seguimiento</h2>
             <button class="btn-p" onclick="openModal(null)">+ Nueva Actividad</button>
         </div>
         <div style="overflow-x: auto;">
@@ -157,16 +169,16 @@
 <!-- Modal de Edición -->
 <div class="modal-bg" id="modal">
     <div class="modal">
-        <h3 id="modalTitle" style="margin-bottom:20px; font-size: 18px; color: var(--color-info)">Detalle de Actividad</h3>
+        <h3 id="modalTitle" style="margin-bottom:20px; font-size: 18px; color: var(--color-brand-primary); font-weight: 800;">Detalle de Actividad</h3>
         
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:15px">
             <div>
                 <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">NOMBRE</label>
-                <input id="mName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px">
+                <input id="mName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family: var(--font-sans);">
             </div>
             <div>
                 <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">FECHA</label>
-                <input type="date" id="mDateInput" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px">
+                <input type="date" id="mDateInput" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family: var(--font-sans);">
             </div>
         </div>
 
@@ -195,8 +207,8 @@
 <!-- Modal de Historial -->
 <div class="modal-bg" id="modalHistory">
     <div class="modal modal-h">
-        <h3 id="histTitle" style="margin-bottom:5px; font-size: 18px; color: var(--color-success)">Historial de Movimientos</h3>
-        <p id="histSubtitle" style="font-size:11px; color:#666; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px"></p>
+        <h3 id="histTitle" style="margin-bottom:5px; font-size: 18px; color: var(--color-brand-primary); font-weight: 800;">Historial de Movimientos</h3>
+        <p id="histSubtitle" style="font-size:11px; color:var(--color-brand-dark); margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px"></p>
         <div class="history-box" id="histList"></div>
         <div style="display:flex; justify-content: flex-end; margin-top:20px">
             <button class="btn-g" onclick="closeHist()">Cerrar</button>
@@ -253,20 +265,13 @@
         initFilters(); render();
     }
 
-    /**
-     * AJUSTE: Sincronización al Lunes.
-     * Esta función calcula la fecha exacta del lunes para cualquier semana relativa.
-     */
     function getWeekInfo(startStr, weekIdx) {
-        const baseDate = new Date(startStr + 'T12:00:00'); // Evitar problemas de zona horaria con mediodía
-        
-        // Ajustamos la fecha base al lunes más cercano (atrás)
-        const dayOfWeek = baseDate.getDay(); // 0 Dom, 1 Lun...
+        const baseDate = new Date(startStr + 'T12:00:00');
+        const dayOfWeek = baseDate.getDay();
         const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
         const mondayOfStart = new Date(baseDate);
         mondayOfStart.setDate(baseDate.getDate() + diffToMonday);
 
-        // Sumamos las semanas indicadas
         const targetMonday = new Date(mondayOfStart);
         targetMonday.setDate(mondayOfStart.getDate() + (weekIdx * 7));
 
@@ -287,7 +292,6 @@
         const monthGroups = new Map();
         const filteredTopics = topics.filter(t => (selResp === "all" || (t.resps && t.resps.includes(selResp))));
 
-        // Generamos columnas basándonos en semanas reales
         for(let w=0; w < 104; w++) {
             const info = getWeekInfo(startStr, w);
             if ((selYear === "all" || info.year.toString() === selYear) && (selectedMonths.length === 0 || selectedMonths.includes(info.monthIdx))) {
@@ -306,7 +310,7 @@
         filteredTopics.forEach(t => {
             const ph = PHASES.find(p => p.k === t.phase);
             const teamStr = (t.resps || []).join(', ');
-            let row = `<tr><td class="left-td" onclick="openModal(${t.id})"><div class="topic-name">${t.name}</div><div style="font-size:10px; color:#999">👤 ${teamStr}</div></td>`;
+            let row = `<tr><td class="left-td" onclick="openModal(${t.id})"><div class="topic-name">${t.name}</div><div style="font-size:10px; color:var(--color-brand-primary); font-weight:700">EQUIPO: ${teamStr}</div></td>`;
             columns.forEach(col => row += `<td>${t.week === col.weekNum ? `<div class="cell-bar" style="background:${ph.bg}; color:${ph.tc}">${ph.k}</div>` : ''}</td>`);
             body.innerHTML += row + `</tr>`;
         });
@@ -317,9 +321,9 @@
             const lastLog = t.history && t.history.length > 0 ? t.history[t.history.length-1] : { comment: 'Sin registros' };
             return `
                 <tr>
-                    <td style="font-weight:700; color:var(--color-info)">${t.name}</td>
+                    <td style="font-weight:700; color:var(--color-brand-primary)">${t.name}</td>
                     <td><div class="topic-desc">${lastLog.comment}</div></td>
-                    <td><div class="resp-tag-list">${(t.resps || []).map(r => `<span class="resp-tag" style="border-left:3px solid ${ph.color}">${r}</span>`).join('')}</div></td>
+                    <td><div class="resp-tag-list">${(t.resps || []).map(r => `<span class="resp-tag" style="border-left:3px solid var(--color-brand-primary)">${r}</span>`).join('')}</div></td>
                     <td>Semana ${t.week}<br><small>${info.full}</small></td>
                     <td><span class="tag" style="background:${ph.fill}; color:${ph.tc}">${ph.label}</span></td>
                     <td style="display:flex; gap:5px">
@@ -348,7 +352,6 @@
         if(id) {
             const t = topics.find(x => x.id.toString() === id.toString());
             document.getElementById('mName').value = t.name;
-            // Al editar, calculamos la fecha ISO del lunes de esa semana seleccionada
             document.getElementById('mDateInput').value = getWeekInfo(startStr, t.week-1).iso;
             selPhase = t.phase; 
             selResps = [...(t.resps || [])];
@@ -364,10 +367,8 @@
     function openHistory(id) {
         const t = topics.find(x => x.id.toString() === id.toString());
         if(!t) return;
-        
         document.getElementById('histTitle').textContent = t.name;
         document.getElementById('histSubtitle').textContent = `Responsables Actuales: ${t.resps.join(', ')}`;
-        
         const list = document.getElementById('histList');
         if(t.history && t.history.length > 0) {
             list.innerHTML = [...t.history].reverse().map(h => `
@@ -385,7 +386,7 @@
 
     function renderChips() {
         document.getElementById('phaseChips').innerHTML = PHASES.map(p => `<div class="m-chip ${selPhase === p.k ? 'active' : ''}" onclick="selPhase='${p.k}'; renderChips()">${p.label}</div>`).join('');
-        document.getElementById('chipsTeam').innerHTML = TEAM.map(m => `<div class="resp-tag" style="cursor:pointer; background:${selResps.includes(m) ? '#1a73e8' : '#fff'}; color:${selResps.includes(m) ? '#fff' : '#000'}" onclick="toggleResp('${m}')">${m}</div>`).join('');
+        document.getElementById('chipsTeam').innerHTML = TEAM.map(m => `<div class="resp-tag" style="cursor:pointer; background:${selResps.includes(m) ? 'var(--color-brand-primary)' : '#fff'}; color:${selResps.includes(m) ? '#fff' : '#000'}" onclick="toggleResp('${m}')">${m}</div>`).join('');
     }
 
     function toggleResp(n) { if(selResps.includes(n)) selResps = selResps.filter(x => x!==n); else selResps.push(n); renderChips(); }
@@ -400,18 +401,13 @@
         if(!name || !dateVal) return;
         
         const startDateVal = document.getElementById('startDate').value;
-        
-        // --- AJUSTE: CÁLCULO DE SEMANAS EXACTO ---
-        // Sincronizamos ambas fechas al mediodía para evitar desfases por zona horaria
         const start = new Date(startDateVal + 'T12:00:00');
         const sel = new Date(dateVal + 'T12:00:00');
         
-        // Llevamos el 'start' al lunes de esa semana para que la Semana 1 sea correcta
         const dayOfWeek = start.getDay();
         const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
         start.setDate(start.getDate() + diffToMonday);
 
-        // Diferencia en días / 7 días por semana
         const diffTime = sel.getTime() - start.getTime();
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         const week = Math.floor(diffDays / 7) + 1;
@@ -427,59 +423,33 @@
             currentTopic = { id: Date.now(), history: [] };
         }
 
-        let changesDetail = { fase: "", responsables: "", nombre: "", planificacion: "" };
+        let summary = editId ? "⚙️ Actualización de detalles:" : "🆕 Actividad creada:";
         let hasChanges = false;
 
         if(original) {
             if(original.phase !== selPhase) {
                 const oldPh = PHASES.find(p => p.k === original.phase)?.label || original.phase;
                 const newPh = PHASES.find(p => p.k === selPhase)?.label || selPhase;
-                changesDetail.fase = `De "${oldPh}" a "${newPh}"`;
-                hasChanges = true;
-            }
-            const oldR = (original.resps || []).sort().join(',');
-            const newR = (selResps || []).sort().join(',');
-            if(oldR !== newR) {
-                changesDetail.responsables = `Nuevos: [${selResps.join(', ')}]`;
-                hasChanges = true;
-            }
-            if(original.name !== name) {
-                changesDetail.nombre = `Nuevo nombre: "${name}"`;
+                summary += `\n• Fase: ${oldPh} → ${newPh}`;
                 hasChanges = true;
             }
             if(original.week !== week) {
-                changesDetail.planificacion = `Semana ${original.week} -> Semana ${week}`;
+                summary += `\n• Fecha: Semana ${original.week} → Semana ${week}`;
                 hasChanges = true;
             }
-
-            if(hasChanges) {
-                let summary = "⚙️ Actualización de detalles:";
-                if(changesDetail.fase) summary += `\n• Fase: ${changesDetail.fase}`;
-                if(changesDetail.responsables) summary += `\n• Equipo: ${changesDetail.responsables}`;
-                if(changesDetail.nombre) summary += `\n• Nombre: ${changesDetail.nombre}`;
-                if(changesDetail.planificacion) summary += `\n• Fecha: ${changesDetail.planificacion}`;
-
-                currentTopic.history.push({ date: nowStr, comment: summary });
-            }
         } else {
-            currentTopic.history.push({ 
-                date: nowStr, 
-                comment: `🆕 Actividad creada.\n👥 Responsables iniciales: [${selResps.join(', ')}]`
-            });
+            summary += `\n• Equipo: [${selResps.join(', ')}]`;
+            hasChanges = true;
         }
+
+        if(hasChanges) currentTopic.history.push({ date: nowStr, comment: summary });
+        if(desc.trim()) currentTopic.history.push({ date: nowStr, comment: `📝 Comentario: ${desc.trim()}` });
 
         currentTopic.name = name; 
         currentTopic.week = week; 
         currentTopic.phase = selPhase; 
         currentTopic.resps = selResps;
         
-        if(desc.trim()) {
-            currentTopic.history.push({ 
-                date: nowStr, 
-                comment: `📝 Comentario: ${desc.trim()}`
-            });
-        }
-
         setStatus('loading', 'Guardando...');
         try {
             await fetch(SCRIPT_URL, { 
