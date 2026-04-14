@@ -14,150 +14,388 @@
             --font-sans: 'Asap', sans-serif;
             --color-brand-primary: #ba0020; /* Rojo Corporativo */
             --color-brand-dark: #4e4e4e;    /* Gris Corporativo */
-            --color-bg-primary: #ffffff;
-            --color-bg-secondary: #f8f9fa;
-            --color-text-primary: #202124;
-            --color-text-secondary: #4e4e4e;
-            --color-text-tertiary: #70757a;
-            --color-border: #dadce0;
-            --color-info: #ba0020;
-            --color-success: #188038;
-            --border-radius-md: 8px;
+            --color-bg-page: #f4f6f8;       /* Gris fondo app */
+            --color-bg-card: #ffffff;
+            --color-text-main: #1a1a1a;
+            --color-text-muted: #5f6368;
+            --color-border: #e0e4e8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             --border-radius-lg: 12px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-sans); color: var(--color-text-primary); background-color: var(--color-bg-primary); line-height: 1.4; }
-        .wrap { padding: 1rem; max-width: 100%; margin: 0 auto; }
+        
+        body { 
+            font-family: var(--font-sans); 
+            color: var(--color-text-main); 
+            background-color: var(--color-bg-page); 
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
+
+        /* Header Corporativo */
+        .app-header {
+            background-color: var(--color-brand-primary);
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+
+        .app-header h1 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .wrap { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 0 20px;
+        }
         
         /* Barra de Estado */
-        .status-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem; font-size: 11px; color: var(--color-text-secondary); }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: #FAC775; }
-        .status-dot.ok { background: #639922; }
+        .status-container {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+            border: 1px solid var(--color-border);
+        }
+
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+        .status-dot.ok { background: #34a853; }
         .status-dot.err { background: var(--color-brand-primary); }
         .status-dot.loading { background: var(--color-brand-primary); animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-        /* Métricas */
-        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-        .metric { background: var(--color-bg-secondary); border-radius: var(--border-radius-md); padding: 12px; border-left: 4px solid transparent; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .metric-label { font-size: 10px; color: var(--color-brand-dark); margin-bottom: 2px; font-weight: 700; text-transform: uppercase; }
-        .metric-val { font-size: 20px; font-weight: 700; color: var(--color-brand-primary); }
+        /* Métricas Estilo Dashboard */
+        .metrics { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 16px; 
+            margin-bottom: 24px; 
+        }
+        .metric { 
+            background: var(--color-bg-card); 
+            border-radius: var(--border-radius-lg); 
+            padding: 20px; 
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid var(--color-brand-primary);
+            transition: transform 0.2s;
+        }
+        .metric:hover { transform: translateY(-2px); }
+        .metric-label { font-size: 11px; color: var(--color-brand-dark); font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+        .metric-val { font-size: 28px; font-weight: 900; color: var(--color-brand-primary); }
+
+        /* Contenedores Tipo Card */
+        .card {
+            background: var(--color-bg-card);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
 
         /* Controles */
-        .controls { padding: 15px; background: var(--color-bg-secondary); border-radius: var(--border-radius-md); border: 1px solid var(--color-border); margin-bottom: 1rem; }
-        .controls-row { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
-        .control-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
-        .controls label { font-size: 11px; font-weight: 700; color: var(--color-brand-dark); }
-        .controls input, .controls select { font-size: 13px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; background: white; outline: none; font-family: var(--font-sans); }
-        .controls input:focus, .controls select:focus { border-color: var(--color-brand-primary); }
+        .controls { padding: 20px; }
+        .controls-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
+        .control-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px; }
+        .control-group label { font-size: 11px; font-weight: 800; color: var(--color-brand-dark); text-transform: uppercase; }
+        
+        .controls input, .controls select { 
+            font-size: 14px; 
+            padding: 10px 12px; 
+            border: 1px solid var(--color-border); 
+            border-radius: 8px; 
+            background: #fff; 
+            font-family: var(--font-sans);
+            transition: border-color 0.2s;
+        }
+        .controls input:focus, .controls select:focus { 
+            border-color: var(--color-brand-primary); 
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(186, 0, 32, 0.1);
+        }
 
-        /* Chips */
-        .month-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
-        .m-chip { padding: 4px 10px; border-radius: 15px; border: 1px solid var(--color-border); background: white; font-size: 12px; cursor: pointer; transition: all 0.2s; color: var(--color-brand-dark); }
-        .m-chip.active { background: var(--color-brand-primary); color: white; border-color: var(--color-brand-primary); font-weight: 600; }
+        /* Filtros por mes */
+        .month-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border); }
+        .m-chip { 
+            padding: 6px 14px; 
+            border-radius: 20px; 
+            border: 1px solid var(--color-border); 
+            background: #fff; 
+            font-size: 12px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            color: var(--color-brand-dark);
+            font-weight: 600;
+        }
+        .m-chip:hover { border-color: var(--color-brand-primary); color: var(--color-brand-primary); }
+        .m-chip.active { background: var(--color-brand-primary); color: white; border-color: var(--color-brand-primary); }
 
-        /* TABLA AJUSTABLE */
-        .gantt-outer { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--border-radius-lg); margin-bottom: 1.5rem; background: white; max-height: 50vh; overflow-y: auto; }
-        table { border-collapse: collapse; width: max-content; min-width: 100%; table-layout: auto; }
+        /* GANTT Estilo Pro */
+        .gantt-outer { 
+            max-height: 60vh; 
+            overflow: auto; 
+            background: white;
+            scrollbar-width: thin;
+        }
+        table { border-collapse: collapse; width: max-content; min-width: 100%; }
         
-        .month-h { background: var(--color-brand-dark); font-size: 10px; font-weight: 800; color: #fff; border: 1px solid var(--color-border); text-align: center; text-transform: uppercase; height: 30px; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 40; }
-        th { background: #f8f9fa; border: 1px solid var(--color-border); padding: 5px 10px; font-weight: 700; font-size: 10px; color: var(--color-brand-dark); white-space: nowrap; }
-        th.left-h { position: sticky; left: 0; z-index: 50; text-align: left; padding-left: 15px; background: #f8f9fa; border-right: 2px solid var(--color-brand-primary); top: 0; }
+        .month-h { 
+            background: var(--color-brand-dark); 
+            font-size: 11px; 
+            font-weight: 800; 
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center; 
+            text-transform: uppercase; 
+            height: 40px; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
         
-        td { border: 1px solid var(--color-border); padding: 4px 8px; vertical-align: middle; text-align: center; font-size: 12px; }
-        td.left-td { position: sticky; left: 0; z-index: 20; text-align: left; padding: 8px 15px; cursor: pointer; border-right: 2px solid var(--color-brand-primary); background: white; white-space: nowrap; transition: background 0.2s; }
-        td.left-td:hover { background: #fff5f6; }
+        th { 
+            background: #f8f9fa; 
+            border: 1px solid var(--color-border); 
+            padding: 10px; 
+            font-weight: 700; 
+            font-size: 10px; 
+            color: var(--color-brand-dark); 
+        }
+        
+        th.left-h { 
+            position: sticky; 
+            left: 0; 
+            z-index: 110; 
+            text-align: left; 
+            padding-left: 20px; 
+            background: #fff; 
+            border-right: 3px solid var(--color-brand-primary);
+            width: 300px;
+        }
+        
+        td { border: 1px solid var(--color-border); padding: 6px; text-align: center; font-size: 12px; }
+        
+        td.left-td { 
+            position: sticky; 
+            left: 0; 
+            z-index: 90; 
+            text-align: left; 
+            padding: 12px 20px; 
+            cursor: pointer; 
+            border-right: 3px solid var(--color-brand-primary); 
+            background: white;
+            transition: background 0.2s;
+        }
+        td.left-td:hover { background: #fff8f8; }
 
-        .cell-bar { height: 24px; min-width: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .cell-bar { 
+            height: 28px; 
+            min-width: 35px; 
+            border-radius: 6px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 12px; 
+            font-weight: 900; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
         
-        /* Bitácora Inferior */
-        .topic-section { border: 1px solid var(--color-border); border-radius: var(--border-radius-lg); overflow: hidden; background: white; }
-        .topic-header { background: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); }
-        .ttable { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: auto; }
-        .ttable th { text-align: left; padding: 10px 15px; background: #f8f9fa; border-bottom: 1px solid var(--color-border); font-weight: 700; color: var(--color-brand-dark); font-size: 10px; text-transform: uppercase; }
-        .ttable td { padding: 12px 15px; border-bottom: 1px solid #f1f3f4; vertical-align: top; }
+        /* Bitácora */
+        .topic-header { 
+            padding: 20px 24px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--color-border);
+            background: #fff;
+        }
         
-        .topic-name { font-size: 14px; font-weight: 700; color: var(--color-text-primary); white-space: nowrap; }
-        .topic-desc { font-size: 12px; color: var(--color-brand-dark); margin-top: 4px; line-height: 1.3; max-width: 350px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .ttable { width: 100%; border-collapse: collapse; }
+        .ttable th { 
+            background: #fdfdfd; 
+            padding: 14px 20px; 
+            border-bottom: 2px solid var(--color-border);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .ttable td { padding: 16px 20px; border-bottom: 1px solid var(--color-border); text-align: left; }
         
-        .resp-tag-list { display: flex; flex-wrap: wrap; gap: 4px; min-width: 150px; }
-        .resp-tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #f0f0f0; color: var(--color-brand-dark); border: 1px solid var(--color-border); white-space: nowrap; }
+        .topic-name { font-size: 15px; font-weight: 800; color: var(--color-brand-primary); margin-bottom: 2px; }
+        
+        /* Estilo truncado para comentarios extensos */
+        .topic-desc { 
+            font-size: 13px; 
+            color: var(--color-text-muted); 
+            line-height: 1.4;
+            max-width: 400px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita a 2 líneas */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-        /* Historial */
-        .history-box { background: #fdfdfd; border-radius: 8px; padding: 12px; border: 1px solid #eee; max-height: 350px; overflow-y: auto; }
-        .hist-item { font-size: 12px; border-bottom: 1px solid #f1f1f1; padding: 10px 0; display: flex; flex-direction: column; gap: 3px; }
-        .hist-item:last-child { border-bottom: none; }
-        .hist-meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--color-brand-dark); text-transform: uppercase; }
-        .hist-date { color: var(--color-brand-primary); }
-        .hist-comment { color: #333; line-height: 1.4; word-break: break-word; white-space: pre-line; }
+        .topic-desc:hover {
+            -webkit-line-clamp: unset; /* Muestra todo al pasar el cursor */
+            max-width: 600px;
+            color: var(--color-text-main);
+            background: rgba(255,255,255,0.9);
+            z-index: 10;
+        }
 
-        /* Botones */
-        .btn-p { background: var(--color-brand-primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; font-family: var(--font-sans); transition: opacity 0.2s; }
-        .btn-p:hover { opacity: 0.9; }
-        .btn-g { background: white; color: var(--color-brand-dark); border: 1px solid var(--color-border); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; font-family: var(--font-sans); }
-        .btn-g:hover { border-color: var(--color-brand-dark); }
-        .btn-h { background: white; color: var(--color-brand-primary); border: 1px solid var(--color-brand-primary); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; font-family: var(--font-sans); }
-        .btn-h:hover { background: #fff5f6; }
+        /* Tags de Responsables */
+        .resp-tag { 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            background: var(--color-bg-page); 
+            color: var(--color-brand-dark); 
+            border: 1px solid var(--color-border);
+        }
+
+        /* Botones Corporativos */
+        .btn-p { 
+            background: var(--color-brand-primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            font-size: 14px; 
+            font-family: var(--font-sans);
+            box-shadow: 0 2px 4px rgba(186, 0, 32, 0.3);
+            transition: all 0.2s;
+        }
+        .btn-p:hover { background: #9e001b; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(186, 0, 32, 0.4); }
         
-        .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
+        .btn-g { 
+            background: white; 
+            color: var(--color-brand-dark); 
+            border: 1px solid var(--color-border); 
+            padding: 8px 14px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-g:hover { background: #f8f9fa; border-color: var(--color-brand-dark); }
+
+        .btn-h { 
+            background: #fff; 
+            color: var(--color-brand-primary); 
+            border: 1px solid var(--color-brand-primary); 
+            padding: 8px 14px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-h:hover { background: var(--color-brand-primary); color: white; }
+
+        .tag { padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
         /* Modales */
-        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(32, 33, 36, 0.6); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+        .modal-bg { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0, 0, 0, 0.7); 
+            z-index: 1000; 
+            align-items: center; 
+            justify-content: center; 
+            backdrop-filter: blur(4px); 
+        }
         .modal-bg.open { display: flex; }
-        .modal { background: white; border-radius: var(--border-radius-lg); padding: 25px; width: 90%; max-width: 650px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .modal-h { max-width: 500px; }
-        .modal label { color: var(--color-brand-dark); }
+        .modal { 
+            background: white; 
+            border-radius: var(--border-radius-lg); 
+            padding: 32px; 
+            width: 90%; 
+            max-width: 700px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+        }
     </style>
 </head>
 <body>
 
-<div class="wrap">
-    <div class="status-bar">
-        <div class="status-dot loading" id="statusDot"></div>
-        <span id="statusMsg">Conectando...</span>
-        <button onclick="loadAll()" style="margin-left:auto; cursor:pointer; background:none; border:none; font-size:11px; color: var(--color-brand-primary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">🔄 ACTUALIZAR</button>
+<header class="app-header">
+    <h1>Seguimiento Banco de Entrenamiento</h1>
+    <div style="display:flex; align-items:center; gap:15px">
+        <div class="status-container" style="color:#000; margin-bottom:0">
+            <div class="status-dot loading" id="statusDot"></div>
+            <span id="statusMsg">Sincronizando...</span>
+        </div>
+        <button onclick="loadAll()" class="btn-g" style="border:none; padding: 6px 12px; font-size: 11px;">ACTUALIZAR</button>
     </div>
+</header>
 
+<div class="wrap">
+    
     <div class="metrics" id="metrics"></div>
 
-    <div class="controls">
+    <div class="card controls">
         <div class="controls-row">
             <div class="control-group">
-                <label>INICIO GANTT</label>
+                <label>Inicio del Proyecto</label>
                 <input type="date" id="startDate" value="2026-01-01" onchange="render()"/>
             </div>
             <div class="control-group">
-                <label>AÑO</label>
+                <label>Ciclo Anual</label>
                 <select id="filterYear" onchange="render()"></select>
             </div>
             <div class="control-group" style="flex: 2;">
-                <label>EQUIPO</label>
+                <label>Responsable de Equipo</label>
                 <select id="filterResp" onchange="render()"></select>
             </div>
         </div>
         <div id="monthFilterContainer" class="month-chips"></div>
     </div>
 
-    <div class="gantt-outer">
-        <table id="ganttTable"></table>
+    <div class="card">
+        <div class="gantt-outer">
+            <table id="ganttTable"></table>
+        </div>
     </div>
 
-    <div class="topic-section">
+    <div class="card topic-section">
         <div class="topic-header">
-            <h2 style="font-size: 16px; font-weight: 800; color: var(--color-brand-dark)">Bitácora de Seguimiento</h2>
-            <button class="btn-p" onclick="openModal(null)">+ Nueva Actividad</button>
+            <div>
+                <h2 style="font-size: 20px; font-weight: 900; color: var(--color-brand-dark)">Bitácora Institucional</h2>
+                <p style="font-size: 12px; color: var(--color-text-muted)">Seguimiento detallado de hitos y progresos</p>
+            </div>
+            <button class="btn-p" onclick="openModal(null)">+ Registrar Actividad</button>
         </div>
         <div style="overflow-x: auto;">
             <table class="ttable">
                 <thead>
                     <tr>
-                        <th>Tema</th>
-                        <th>Último Avance</th>
+                        <th style="width: 250px;">Actividad</th>
+                        <th>Último Registro</th>
                         <th>Equipo</th>
-                        <th>Planificación</th>
-                        <th>Fase</th>
-                        <th>Acciones</th>
+                        <th>Agenda</th>
+                        <th>Fase Actual</th>
+                        <th style="text-align: right;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="topicBody"></tbody>
@@ -169,49 +407,49 @@
 <!-- Modal de Edición -->
 <div class="modal-bg" id="modal">
     <div class="modal">
-        <h3 id="modalTitle" style="margin-bottom:20px; font-size: 18px; color: var(--color-brand-primary); font-weight: 800;">Detalle de Actividad</h3>
+        <h3 id="modalTitle" style="margin-bottom:24px; font-size: 22px; color: var(--color-brand-primary); font-weight: 900; border-bottom: 2px solid var(--color-brand-primary); padding-bottom: 10px;">Gestión de Actividad</h3>
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:15px">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:20px">
             <div>
-                <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">NOMBRE</label>
-                <input id="mName" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family: var(--font-sans);">
+                <label style="display:block; font-size:11px; font-weight:800; margin-bottom:8px; color: var(--color-brand-dark)">NOMBRE DE LA ACTIVIDAD</label>
+                <input id="mName" placeholder="Ej: Talleres de Co-creación" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-family: var(--font-sans);">
             </div>
             <div>
-                <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">FECHA</label>
-                <input type="date" id="mDateInput" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family: var(--font-sans);">
+                <label style="display:block; font-size:11px; font-weight:800; margin-bottom:8px; color: var(--color-brand-dark)">FECHA ESTIMADA</label>
+                <input type="date" id="mDateInput" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-family: var(--font-sans);">
             </div>
         </div>
 
-        <div style="margin-bottom:15px">
-            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">FASE</label>
-            <div id="phaseChips"></div>
+        <div style="margin-bottom:20px">
+            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:8px; color: var(--color-brand-dark)">FASE METODOLÓGICA</label>
+            <div id="phaseChips" style="display:flex; gap:8px; flex-wrap:wrap"></div>
         </div>
 
-        <div style="margin-bottom:15px">
-            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">EQUIPO</label>
-            <div id="chipsTeam" style="display:flex; flex-wrap:wrap; gap:4px"></div>
+        <div style="margin-bottom:20px">
+            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:8px; color: var(--color-brand-dark)">EQUIPO RESPONSABLE</label>
+            <div id="chipsTeam" style="display:flex; flex-wrap:wrap; gap:6px"></div>
         </div>
 
-        <div style="margin-bottom:10px">
-            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:5px">NUEVO MOVIMIENTO</label>
-            <textarea id="mDesc" rows="3" placeholder="Escribe aquí el avance..." style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family:inherit"></textarea>
+        <div style="margin-bottom:20px">
+            <label style="display:block; font-size:11px; font-weight:800; margin-bottom:8px; color: var(--color-brand-dark)">AVANCE / OBSERVACIONES</label>
+            <textarea id="mDesc" rows="4" placeholder="Describa el progreso actual..." style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-family:inherit; resize: none;"></textarea>
         </div>
 
-        <div style="display:flex; justify-content: flex-end; gap:10px; margin-top:20px">
-            <button class="btn-g" onclick="closeModal()">Cancelar</button>
-            <button class="btn-p" onclick="saveModal()">Guardar</button>
+        <div style="display:flex; justify-content: flex-end; gap:12px; margin-top:30px; border-top: 1px solid #eee; padding-top: 20px;">
+            <button class="btn-g" onclick="closeModal()">Descartar</button>
+            <button class="btn-p" onclick="saveModal()">Confirmar Cambios</button>
         </div>
     </div>
 </div>
 
 <!-- Modal de Historial -->
 <div class="modal-bg" id="modalHistory">
-    <div class="modal modal-h">
-        <h3 id="histTitle" style="margin-bottom:5px; font-size: 18px; color: var(--color-brand-primary); font-weight: 800;">Historial de Movimientos</h3>
-        <p id="histSubtitle" style="font-size:11px; color:var(--color-brand-dark); margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px"></p>
-        <div class="history-box" id="histList"></div>
-        <div style="display:flex; justify-content: flex-end; margin-top:20px">
-            <button class="btn-g" onclick="closeHist()">Cerrar</button>
+    <div class="modal" style="max-width: 550px;">
+        <h3 id="histTitle" style="margin-bottom:8px; font-size: 20px; color: var(--color-brand-primary); font-weight: 900;">Línea de Tiempo</h3>
+        <p id="histSubtitle" style="font-size:12px; color:var(--color-text-muted); margin-bottom:20px;"></p>
+        <div class="history-box" id="histList" style="background: #fcfcfc; border: 1px solid #eee; border-radius: 12px; padding: 15px; max-height: 400px; overflow-y: auto;"></div>
+        <div style="display:flex; justify-content: flex-end; margin-top:24px">
+            <button class="btn-p" onclick="closeHist()">Entendido</button>
         </div>
     </div>
 </div>
@@ -235,16 +473,16 @@
     let selectedMonths = [];
 
     async function loadAll() {
-        setStatus('loading', 'Cargando datos...');
+        setStatus('loading', 'Sincronizando con base de datos...');
         try {
             const res = await fetch(`${SCRIPT_URL}?action=getData&_=${Date.now()}`);
             const data = await res.json();
             topics = (data.topics || []);
-            setStatus('ok', 'Actualizado.');
+            setStatus('ok', 'Sistema actualizado');
             initFilters();
             render();
         } catch (e) {
-            setStatus('err', 'Error de conexión.');
+            setStatus('err', 'Error de red');
             console.error(e);
         }
     }
@@ -254,8 +492,8 @@
         const monthContainer = document.getElementById('monthFilterContainer');
         const respSel = document.getElementById('filterResp');
         
-        yearSel.innerHTML = '<option value="all">Todos los años</option><option value="2026" selected>2026</option><option value="2027">2027</option>';
-        respSel.innerHTML = '<option value="all">Todos los equipos</option>' + TEAM.map(r => `<option value="${r}">${r}</option>`).join('');
+        yearSel.innerHTML = '<option value="all">Ver todo el histórico</option><option value="2026" selected>Ciclo 2026</option><option value="2027">Ciclo 2027</option>';
+        respSel.innerHTML = '<option value="all">Todos los colaboradores</option>' + TEAM.map(r => `<option value="${r}">${r}</option>`).join('');
         monthContainer.innerHTML = MONTH_NAMES.map((m, idx) => `<div class="m-chip ${selectedMonths.includes(idx) ? 'active' : ''}" onclick="toggleMonthFilter(${idx})">${m}</div>`).join('');
     }
 
@@ -301,16 +539,16 @@
             }
         }
 
-        let mRow = `<th class="left-h"></th>`, wRow = `<th class="left-h">SEGUIMIENTO PROYECTOS</th>`;
+        let mRow = `<th class="left-h"></th>`, wRow = `<th class="left-h">ACTIVIDADES Y SEGUIMIENTO</th>`;
         monthGroups.forEach(v => mRow += `<th colspan="${v.count}" class="month-h">${MONTH_NAMES[v.label]} ${v.year}</th>`);
-        columns.forEach(c => wRow += `<th>S${c.weekNum}<br><span style="font-weight:400; font-size:8px">${c.info.full}</span></th>`);
+        columns.forEach(c => wRow += `<th>S${c.weekNum}<br><span style="font-weight:400; font-size:9px">${c.info.full}</span></th>`);
         document.getElementById('ganttTable').innerHTML = `<thead><tr>${mRow}</tr><tr>${wRow}</tr></thead><tbody id="ganttBody"></tbody>`;
         
         const body = document.getElementById('ganttBody');
         filteredTopics.forEach(t => {
             const ph = PHASES.find(p => p.k === t.phase);
             const teamStr = (t.resps || []).join(', ');
-            let row = `<tr><td class="left-td" onclick="openModal(${t.id})"><div class="topic-name">${t.name}</div><div style="font-size:10px; color:var(--color-brand-primary); font-weight:700">EQUIPO: ${teamStr}</div></td>`;
+            let row = `<tr><td class="left-td" onclick="openModal(${t.id})"><div class="topic-name">${t.name}</div><div style="font-size:10px; color:var(--color-brand-dark); font-weight:700">LIDERAZGO: ${teamStr}</div></td>`;
             columns.forEach(col => row += `<td>${t.week === col.weekNum ? `<div class="cell-bar" style="background:${ph.bg}; color:${ph.tc}">${ph.k}</div>` : ''}</td>`);
             body.innerHTML += row + `</tr>`;
         });
@@ -318,17 +556,20 @@
         document.getElementById('topicBody').innerHTML = filteredTopics.map(t => {
             const info = getWeekInfo(startStr, t.week - 1);
             const ph = PHASES.find(p=>p.k==t.phase);
-            const lastLog = t.history && t.history.length > 0 ? t.history[t.history.length-1] : { comment: 'Sin registros' };
+            const lastLog = t.history && t.history.length > 0 ? t.history[t.history.length-1] : { comment: 'Pendiente de inicio' };
+            
             return `
                 <tr>
-                    <td style="font-weight:700; color:var(--color-brand-primary)">${t.name}</td>
-                    <td><div class="topic-desc">${lastLog.comment}</div></td>
-                    <td><div class="resp-tag-list">${(t.resps || []).map(r => `<span class="resp-tag" style="border-left:3px solid var(--color-brand-primary)">${r}</span>`).join('')}</div></td>
-                    <td>Semana ${t.week}<br><small>${info.full}</small></td>
+                    <td><div class="topic-name">${t.name}</div></td>
+                    <td><div class="topic-desc" title="Pasa el cursor o abre el historial para ver completo">${lastLog.comment}</div></td>
+                    <td><div style="display:flex; gap:4px; flex-wrap:wrap">${(t.resps || []).map(r => `<span class="resp-tag">${r}</span>`).join('')}</div></td>
+                    <td><div style="font-weight:700">Semana ${t.week}</div><small style="color:var(--color-brand-primary); font-weight:800">${info.full}</small></td>
                     <td><span class="tag" style="background:${ph.fill}; color:${ph.tc}">${ph.label}</span></td>
-                    <td style="display:flex; gap:5px">
-                        <button onclick="openModal(${t.id})" class="btn-g">✏️ Editar</button>
-                        <button onclick="openHistory(${t.id})" class="btn-h">📜 Movimientos (${t.history ? t.history.length : 0})</button>
+                    <td style="text-align:right">
+                        <div style="display:flex; gap:8px; justify-content: flex-end">
+                            <button onclick="openModal(${t.id})" class="btn-g">Gestionar</button>
+                            <button onclick="openHistory(${t.id})" class="btn-h">Historial</button>
+                        </div>
                     </td>
                 </tr>`;
         }).join('');
@@ -337,7 +578,7 @@
 
     function renderMetrics(list) {
         document.getElementById('metrics').innerHTML = PHASES.map(p => `
-            <div class="metric" style="border-left-color:${p.color}">
+            <div class="metric" style="border-top-color:${p.color}">
                 <div class="metric-label">${p.label}</div>
                 <div class="metric-val">${list.filter(t => t.phase === p.k).length}</div>
             </div>`).join('');
@@ -347,7 +588,7 @@
         editId = id;
         const startStr = document.getElementById('startDate').value;
         document.getElementById('mDesc').value = ""; 
-        document.getElementById('modalTitle').textContent = id ? "Editar Actividad" : "Nueva Actividad";
+        document.getElementById('modalTitle').textContent = id ? "EDICIÓN DE ACTIVIDAD" : "NUEVO REGISTRO";
 
         if(id) {
             const t = topics.find(x => x.id.toString() === id.toString());
@@ -368,25 +609,25 @@
         const t = topics.find(x => x.id.toString() === id.toString());
         if(!t) return;
         document.getElementById('histTitle').textContent = t.name;
-        document.getElementById('histSubtitle').textContent = `Responsables Actuales: ${t.resps.join(', ')}`;
+        document.getElementById('histSubtitle').textContent = `Liderazgo: ${t.resps.join(', ')}`;
         const list = document.getElementById('histList');
         if(t.history && t.history.length > 0) {
             list.innerHTML = [...t.history].reverse().map(h => `
-                <div class="hist-item">
-                    <div class="hist-meta">
-                        <span class="hist-date">📅 ${h.date}</span>
+                <div style="border-bottom: 1px solid #eee; padding: 12px 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:900; color:var(--color-brand-primary); text-transform:uppercase; margin-bottom:4px">
+                        <span>${h.date}</span>
                     </div>
-                    <div class="hist-comment">${h.comment}</div>
+                    <div style="font-size:12px; line-height:1.4; white-space: pre-line;">${h.comment}</div>
                 </div>`).join('');
         } else {
-            list.innerHTML = `<p style="text-align:center; color:#999; padding:20px">No hay movimientos registrados.</p>`;
+            list.innerHTML = `<p style="text-align:center; color:#999; padding:20px">No existen registros previos para esta actividad.</p>`;
         }
         document.getElementById('modalHistory').classList.add('open');
     }
 
     function renderChips() {
         document.getElementById('phaseChips').innerHTML = PHASES.map(p => `<div class="m-chip ${selPhase === p.k ? 'active' : ''}" onclick="selPhase='${p.k}'; renderChips()">${p.label}</div>`).join('');
-        document.getElementById('chipsTeam').innerHTML = TEAM.map(m => `<div class="resp-tag" style="cursor:pointer; background:${selResps.includes(m) ? 'var(--color-brand-primary)' : '#fff'}; color:${selResps.includes(m) ? '#fff' : '#000'}" onclick="toggleResp('${m}')">${m}</div>`).join('');
+        document.getElementById('chipsTeam').innerHTML = TEAM.map(m => `<div class="resp-tag" style="cursor:pointer; background:${selResps.includes(m) ? 'var(--color-brand-primary)' : '#fff'}; color:${selResps.includes(m) ? '#fff' : '#4e4e4e'}; border-color:${selResps.includes(m) ? 'var(--color-brand-primary)' : '#ddd'}" onclick="toggleResp('${m}')">${m}</div>`).join('');
     }
 
     function toggleResp(n) { if(selResps.includes(n)) selResps = selResps.filter(x => x!==n); else selResps.push(n); renderChips(); }
@@ -423,34 +664,34 @@
             currentTopic = { id: Date.now(), history: [] };
         }
 
-        let summary = editId ? "⚙️ Actualización de detalles:" : "🆕 Actividad creada:";
+        let summary = editId ? "⚙️ ACTUALIZACIÓN DE ESTADO:" : "🆕 REGISTRO INICIAL:";
         let hasChanges = false;
 
         if(original) {
             if(original.phase !== selPhase) {
                 const oldPh = PHASES.find(p => p.k === original.phase)?.label || original.phase;
                 const newPh = PHASES.find(p => p.k === selPhase)?.label || selPhase;
-                summary += `\n• Fase: ${oldPh} → ${newPh}`;
+                summary += `\n- Fase: de ${oldPh} a ${newPh}`;
                 hasChanges = true;
             }
             if(original.week !== week) {
-                summary += `\n• Fecha: Semana ${original.week} → Semana ${week}`;
+                summary += `\n- Planificación: de S${original.week} a S${week}`;
                 hasChanges = true;
             }
         } else {
-            summary += `\n• Equipo: [${selResps.join(', ')}]`;
+            summary += `\n- Liderazgo asignado: [${selResps.join(', ')}]`;
             hasChanges = true;
         }
 
         if(hasChanges) currentTopic.history.push({ date: nowStr, comment: summary });
-        if(desc.trim()) currentTopic.history.push({ date: nowStr, comment: `📝 Comentario: ${desc.trim()}` });
+        if(desc.trim()) currentTopic.history.push({ date: nowStr, comment: `💬 NOTA: ${desc.trim()}` });
 
         currentTopic.name = name; 
         currentTopic.week = week; 
         currentTopic.phase = selPhase; 
         currentTopic.resps = selResps;
         
-        setStatus('loading', 'Guardando...');
+        setStatus('loading', 'Guardando en servidor...');
         try {
             await fetch(SCRIPT_URL, { 
                 method: 'POST', 
@@ -460,7 +701,7 @@
             closeModal(); 
             setTimeout(loadAll, 1200);
         } catch(e) { 
-            setStatus('err', 'Error al guardar.'); 
+            setStatus('err', 'Fallo de guardado'); 
         }
     }
 
